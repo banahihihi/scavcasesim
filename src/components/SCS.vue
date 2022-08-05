@@ -33,13 +33,11 @@
     <template v-if="msclicked">
       <v-container>
         <v-row justify="center">
-          <!--
           <v-img
             contain
             max-height="60vh"
-            v-bind:src="resImg.src"
+            v-bind:src="imgsrc"
           ></v-img>
-          -->
         </v-row>
         <v-row justify="center">
           <p class="text-h3 mt-4">{{profit}}</p>
@@ -88,7 +86,6 @@
 
 <script>
 import axios from 'axios'
-//let resImg = new Image();
 
 export default {
   name: 'SCS',
@@ -97,6 +94,7 @@ export default {
     return {
       msclicked: false,
       msloading: false,
+      imgsrc: null,
       profit: null,
       itemList: null,
     }
@@ -109,16 +107,11 @@ export default {
         .get('https://script.google.com/macros/s/AKfycbzIbxYHLeTX1G3AI3Prh876OCE8cM5eha0TNZBYcGPn-fpQctkcXpt4FMIfSjNIsFR-/exec')
         .then(function(res){
           console.log(res);
-          //resImg.src = res.data.picURL;
+          this.imgsrc = res.data.picURL;
           this.profit = res.data.profit;
           this.itemList = res.data.itemList;
           
           this.msclicked = true;
-          /*
-          resImg.onload = function(){
-            this.msclicked = true;
-          }
-          */
         }.bind(this))
         .catch(function (e) {
           console.log(e);
